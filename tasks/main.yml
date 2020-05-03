@@ -1,17 +1,17 @@
 ---
 # init host for first time
-- include_tasks: tasks/init-host.yaml
+- include_tasks: tasks/init-host.yml
   when: initialize == True
 
 # patch clients / server
-- include_tasks: tasks/patch-management.yaml
+- include_tasks: tasks/patch-management.yml
 
 # implement ssh standard configuration
-- include_tasks: tasks/ssh-configuration.yaml
+- include_tasks: tasks/ssh-configuration.yml
 
 # install common software for traditional baseline
-- include_tasks: tasks/common-software.yaml
+- include_tasks: tasks/common-software.yml
 
 # reboot client / server
-- include_tasks: tasks/reboot-host.yaml
+- include_tasks: tasks/reboot-host.yml
   when: reboot_host == True
