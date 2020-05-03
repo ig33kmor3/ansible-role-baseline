@@ -1,0 +1,19 @@
+# set hostname with subdomain
+- name: setting or confirming hostname with subdomain
+  hostname:
+    name: "{{ inventory_hostname_short }}.{{ domain_name }}"
+  when: domain_name != "none-configured"
+
+# set hostname without subdomain
+- name: setting or confirming hostname without subdomain
+  hostname:
+    name: "{{ inventory_hostname_short }}"
+  when: domain_name == "none-configured"
+
+# set authorized keys bare-metal
+- name: set authorized key for user {{ ansible_user }} copying it from current user
+  authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+  when: hosting_environment == "bare-metal"

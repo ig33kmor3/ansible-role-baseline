@@ -1,0 +1,5 @@
+# reboot host machine gracefully
+- name: wait for host to reboot and validate operational
+  reboot:
+    reboot_timeout: 300
+    post_reboot_delay: 10

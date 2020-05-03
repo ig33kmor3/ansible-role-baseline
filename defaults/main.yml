@@ -1,2 +1,6 @@
 ---
 # defaults file for baseline
+initialize: False
+reboot_host: False
+domain_name: none-configured
+hosting_environment: bare-metal

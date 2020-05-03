@@ -1,0 +1,35 @@
+# conifgure ssh login banner
+- name: copy SSH login banner to remote server
+  copy:
+    src: banner.net
+    dest: /etc/issue.net
+    owner: root
+    group: root
+    mode: '0644'
+
+# add banner to sshd configuration
+- name: ensure sshd configuration enables a banner
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(#|^)Banner'
+    line: Banner /etc/issue.net
+
+# disable x11 forwarding
+- name: disable X11Forwarding for security
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(#|^)X11Forwarding'
+    line: X11Forwarding no
+
+# disable root login from ssh
+- name: disable root login over the network
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '(#|^)PermitRootLogin'
+    line: PermitRootLogin no
+
+# restart sshd service to apply all changes
+- name: restart sshd service
+  systemd:
+    state: restarted
+    name: sshd

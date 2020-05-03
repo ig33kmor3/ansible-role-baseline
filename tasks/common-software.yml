@@ -1,0 +1,44 @@
+# update patch repository
+- name: run the equivalent of "apt-get update" as a separate step - Ubuntu/Debian
+  apt:
+    update_cache: yes
+  register: apt_status
+  until: apt_status.failed == False
+  retries: 10
+  delay: 60
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+# install software specific to Ubuntu/Debian
+- name: install common sofware packages for initial build - Ubuntu/Debian
+  apt:
+    name: ['vim', 'glances', 'clamav', 'open-vm-tools', 'tmux']
+    state: present
+  register: apt_status
+  until: apt_status.failed == False
+  retries: 10
+  delay: 60
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+# install software specific to CentOS/Red Hat
+- name: install common sofware packages for initial build - CentOS/RedHat
+  yum:
+    update_cache: yes
+    name: ['epel-release', 'vim', 'bash-completion', 'wget', 'open-vm-tools', 'tmux']
+    state: present
+  register: yum_status
+  until: yum_status.failed == False
+  retries: 10
+  delay: 60
+  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "RedHat")
+
+# install epel release software packages to CentOS/RedHat
+- name: install epel release software packages - CentOS/RedHat
+  yum:
+    update_cache: yes
+    name: ['clamav', 'htop']
+    state: present
+  register: yum_status
+  until: yum_status.failed == False
+  retries: 10
+  delay: 60
+  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "RedHat")

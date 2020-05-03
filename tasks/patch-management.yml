@@ -1,0 +1,36 @@
+# patch management for ubuntu systems
+- name: run the equivalent of "apt-get update" as a separate step - Ubuntu/Debian
+  apt:
+    update_cache: yes
+  register: apt_status
+  until: apt_status.failed == False
+  retries: 10
+  delay: 60
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+- name: upgrade all packages to the latest version - Ubuntu/Debian
+  apt:
+    upgrade: dist
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+- name: remove useless packages from the cache - Ubuntu/Debian
+  apt:
+    autoclean: yes
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+- name: remove dependencies that are no longer required - Ubuntu/Debian
+  apt:
+    autoremove: yes
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+# patch management for centos and red hat systems
+- name: upgrade all packages to the latest version - Centos/RedHat
+  yum:
+    update_cache: yes
+    name: '*'
+    state: latest
+  register: yum_status
+  until: yum_status.failed == False
+  retries: 10
+  delay: 60
+  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "RedHat")

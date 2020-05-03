@@ -1,2 +1,17 @@
 ---
-# tasks file for baseline
+# init host for first time
+- include_tasks: tasks/init-host.yaml
+  when: initialize == True
+
+# patch clients / server
+- include_tasks: tasks/patch-management.yaml
+
+# implement ssh standard configuration
+- include_tasks: tasks/ssh-configuration.yaml
+
+# install common software for traditional baseline
+- include_tasks: tasks/common-software.yaml
+
+# reboot client / server
+- include_tasks: tasks/reboot-host.yaml
+  when: reboot_host == True
