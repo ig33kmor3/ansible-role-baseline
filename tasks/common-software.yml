@@ -20,7 +20,7 @@
   when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
 
 # install software specific to CentOS/Red Hat
-- name: install common sofware packages for initial build - CentOS/RedHat/Amazon
+- name: install common sofware packages for initial build - CentOS/RedHat
   yum:
     update_cache: yes
     name: ['epel-release', 'vim', 'bash-completion', 'wget', 'open-vm-tools', 'tmux']
@@ -32,7 +32,7 @@
   when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "RedHat")
 
 # install epel release software packages to CentOS/RedHat
-- name: install epel release software packages - CentOS/RedHat/Amazon
+- name: install epel release software packages - CentOS/RedHat
   yum:
     update_cache: yes
     name: ['clamav', 'htop']
