@@ -24,7 +24,7 @@
   when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
 
 # patch management for centos and red hat systems
-- name: upgrade all packages to the latest version - Centos/RedHat
+- name: upgrade all packages to the latest version - Centos/RedHat/Amazon
   yum:
     update_cache: yes
     name: '*'
@@ -33,4 +33,4 @@
   until: yum_status.failed == False
   retries: 10
   delay: 60
-  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "RedHat")
+  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "RedHat") or (ansible_facts['distribution'] == "Amazon")
